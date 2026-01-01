@@ -1,0 +1,140 @@
+<main class="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-rose-50">
+  <div class="w-full max-w-md">
+    <div class="p-8 bg-white rounded-2xl shadow-lg w-full">
+      <div class="mb-6">
+        <h2 class="font-serif text-2xl font-bold text-rose-800 text-center">Create Your Profile</h2>
+        <div class="flex justify-between items-center mt-2">
+          <p class="text-slate-500 text-sm">Step {{ currentStep() }} of {{ totalSteps }}</p>
+          <p class="text-rose-600 font-semibold text-sm">{{ roundedProgress() }}% Complete</p>
+        </div>
+        <!-- Progress Bar -->
+        <div class="mt-2 w-full bg-slate-200 rounded-full h-2">
+          <div class="bg-rose-600 h-2 rounded-full transition-all duration-500 ease-out" [style.width.%]="progress()"></div>
+        </div>
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="finish()">
+        @switch (currentStep()) {
+          @case (1) {
+            <div formGroupName="basicInfo" class="space-y-4 animate-fade-in">
+              <h3 class="text-lg font-semibold text-slate-700 border-b pb-2">Basic Information</h3>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Full Name</label>
+                <input formControlName="fullName" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Gender</label>
+                <select formControlName="gender" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Date of Birth</label>
+                <input formControlName="dob" type="date" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+            </div>
+          }
+          @case (2) {
+            <div formGroupName="religionInfo" class="space-y-4 animate-fade-in">
+              <h3 class="text-lg font-semibold text-slate-700 border-b pb-2">Religion & Community</h3>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Religion</label>
+                <input formControlName="religion" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Caste / Community</label>
+                <input formControlName="caste" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Mother Tongue</label>
+                <input formControlName="motherTongue" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+            </div>
+          }
+          @case (3) {
+            <div formGroupName="locationInfo" class="space-y-4 animate-fade-in">
+              <h3 class="text-lg font-semibold text-slate-700 border-b pb-2">Location Details</h3>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">City</label>
+                <input formControlName="city" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">State</label>
+                <input formControlName="state" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Country</label>
+                <input formControlName="country" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+            </div>
+          }
+          @case (4) {
+            <div formGroupName="educationInfo" class="space-y-4 animate-fade-in">
+              <h3 class="text-lg font-semibold text-slate-700 border-b pb-2">Education & Career</h3>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Highest Education</label>
+                <input formControlName="education" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Occupation</label>
+                <input formControlName="occupation" type="text" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">About Yourself</label>
+                <textarea formControlName="bio" rows="3" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-md" placeholder="Write a short bio..."></textarea>
+              </div>
+            </div>
+          }
+          @case (5) {
+            <div class="space-y-4 animate-fade-in text-center">
+              <h3 class="text-lg font-semibold text-slate-700 border-b pb-2">Profile Picture</h3>
+              
+              <div class="mt-4 flex justify-center">
+                <div class="w-48 h-48 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden">
+                  @if (profilePicturePreview()) {
+                    <img [src]="profilePicturePreview()" alt="Profile picture preview" class="w-full h-full object-cover">
+                  } @else {
+                    <div class="text-center text-slate-500">
+                      <svg class="w-16 h-16 text-slate-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                      <p class="text-xs mt-2 font-medium">Upload a photo</p>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" class="hidden">
+
+              <button type="button" (click)="fileInput.click()" class="mt-4 px-6 py-2 bg-slate-100 text-rose-600 font-semibold rounded-lg border border-rose-200 hover:bg-rose-100 transition">
+                Select Image
+              </button>
+            </div>
+          }
+        }
+
+        <!-- Navigation -->
+        <div class="mt-8 flex justify-between">
+          @if (currentStep() > 1) {
+            <button type="button" (click)="prevStep()" class="px-6 py-2 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 transition">
+              Back
+            </button>
+          } @else {
+            <div></div> <!-- Placeholder for alignment -->
+          }
+
+          @if (currentStep() < totalSteps) {
+            <button type="button" (click)="nextStep()" class="px-6 py-2 bg-rose-600 text-white font-semibold rounded-lg hover:bg-rose-700 transition">
+              Next
+            </button>
+          }
+          @if (currentStep() === totalSteps) {
+            <button type="submit" [disabled]="profileForm.invalid" class="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-green-300 transition">
+              Finish
+            </button>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
